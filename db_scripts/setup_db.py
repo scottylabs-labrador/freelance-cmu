@@ -36,10 +36,9 @@ def create_tables():
         price_low DECIMAL NOT NULL,
         price_high DECIMAL NOT NULL,
         payment_detail TEXT NOT NULL,
-        tag_id INTEGER NOT NULL,
+        tags TEXT NOT NULL,
         username TEXT NOT NULL,
         time_commitment DECIMAL(10, 2),
-        FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
         FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
     );
     """

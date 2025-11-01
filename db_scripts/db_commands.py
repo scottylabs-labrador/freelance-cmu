@@ -1,4 +1,4 @@
-import sqlite3, requests
+import sqlite3
 from db_scripts import setup_db
 from datetime import datetime
 from typing import Optional
@@ -6,7 +6,6 @@ from typing import Optional
 
 def get_db_connection():
     return sqlite3.connect(setup_db.DB_FILE)
-
 
 def clear_table(table: str):
     db = get_db_connection()
@@ -50,7 +49,6 @@ def get_user(column, value):
         user = None
     finally:
         cur.close()
-        db.commit()
         db.close()
     return user
 
@@ -62,7 +60,7 @@ def add_job(job_name: str,
             price_low: float,
             price_high: float,
             payment_detail: str,
-            tag_id: int,
+            tags: str,
             username: str,
             time_commitment: Optional[str] = ''):
     try:
@@ -70,8 +68,8 @@ def add_job(job_name: str,
         cur = db.cursor()
         cur.execute(
             '''INSERT INTO jobs (job_name, description, deadline, location, price_low, price_high, 
-                                 payment_detail, tag_id, username, time_commitment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-            (job_name, description, deadline, location, price_low, price_high, payment_detail, tag_id, username, time_commitment),
+                                 payment_detail, tags, username, time_commitment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+            (job_name, description, deadline, location, price_low, price_high, payment_detail, tags, username, time_commitment),
         )
     except sqlite3.Error as e:
         print(f"Database error: {e}")
@@ -81,19 +79,19 @@ def add_job(job_name: str,
         db.close()
 
 
-def get_job(column, value):
+def get_job(username: str, job_name):
     db = get_db_connection()
     cur = db.cursor()
     try:
-        query = f"SELECT * FROM jobs WHERE {column} = ?"
-        cur.execute(query, (value,))
+        cur.execute(
+            "SELECT * FROM jobs WHERE username = ? AND job_name = ?", (username, job_name)
+        )
         job = cur.fetchone()
     except sqlite3.Error as e:
         print(f"An error occurred: {e}")
         job = None
     finally:
         cur.close()
-        db.commit()
         db.close()
     return job
 
@@ -108,3 +106,12 @@ def remove_job(username: str, job_name: str):
     db.commit()
     cur.close()
     db.close()
+
+def fetch_tags(tags_list):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    if tags_list is None:
+        cur.execute("SELECT title FROM tags")
+        tags_list = [row[0] for row in cur.fetchall()]
+    conn.close()
+    return tags_list
