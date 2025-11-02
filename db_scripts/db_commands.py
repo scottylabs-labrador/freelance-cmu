@@ -7,6 +7,7 @@ from typing import Optional
 def get_db_connection():
     return sqlite3.connect(setup_db.DB_FILE)
 
+
 def clear_table(table: str):
     db = get_db_connection()
     cur = db.cursor()
@@ -53,23 +54,36 @@ def get_user(column, value):
     return user
 
 
-def add_job(job_name: str, 
-            description: str,
-            deadline: datetime,
-            location: str,
-            price_low: float,
-            price_high: float,
-            payment_detail: str,
-            tags: str,
-            username: str,
-            time_commitment: Optional[str] = ''):
+def add_job(
+    job_name: str,
+    description: str,
+    deadline: datetime,
+    location: str,
+    price_low: float,
+    price_high: float,
+    payment_detail: str,
+    tags: str,
+    username: str,
+    time_commitment: Optional[str] = "",
+):
     try:
         db = get_db_connection()
         cur = db.cursor()
         cur.execute(
-            '''INSERT INTO jobs (job_name, description, deadline, location, price_low, price_high, 
-                                 payment_detail, tags, username, time_commitment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-            (job_name, description, deadline, location, price_low, price_high, payment_detail, tags, username, time_commitment),
+            """INSERT INTO jobs (job_name, description, deadline, location, price_low, price_high, 
+                                 payment_detail, tags, username, time_commitment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (
+                job_name,
+                description,
+                deadline,
+                location,
+                price_low,
+                price_high,
+                payment_detail,
+                tags,
+                username,
+                time_commitment,
+            ),
         )
     except sqlite3.Error as e:
         print(f"Database error: {e}")
@@ -84,7 +98,8 @@ def get_job(username: str, job_name):
     cur = db.cursor()
     try:
         cur.execute(
-            "SELECT * FROM jobs WHERE username = ? AND job_name = ?", (username, job_name)
+            "SELECT * FROM jobs WHERE username = ? AND job_name = ?",
+            (username, job_name),
         )
         job = cur.fetchone()
     except sqlite3.Error as e:
@@ -94,6 +109,7 @@ def get_job(username: str, job_name):
         cur.close()
         db.close()
     return job
+
 
 def remove_job(username: str, job_name: str):
     db = get_db_connection()
@@ -106,6 +122,7 @@ def remove_job(username: str, job_name: str):
     db.commit()
     cur.close()
     db.close()
+
 
 def fetch_tags(tags_list):
     conn = get_db_connection()
