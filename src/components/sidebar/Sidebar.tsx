@@ -1,4 +1,5 @@
 import React from "react";
+import { IoMdSearch } from "react-icons/io";
 
 interface SidebarProps {
   searchTerm: string;
@@ -31,11 +32,12 @@ const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div className="flex flex-col gap-4">
       {/*segment for input*/}
-      <div>
+      <div className="flex items-center bg-white p-2 rounded-full gap-2">
+        <IoMdSearch></IoMdSearch>
         <input
           type="text"
           id="search"
-          placeholder="e.g., 'logo' or 'scotty's'"
+          placeholder="search here"
           value={searchTerm}
           onChange={(e) => {
             onSearchChange(e.target.value);
@@ -47,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <label htmlFor="tags">Filter by Tag</label>
         <select
           id="tags"
-          className="mt-1 block w-full pl-3 pr-10 py-2 border-gray-300 rounded-md"
+          className="bg-white mt-1 block w-full pl-3 pr-10 py-2 border-gray-300 rounded-full"
           value={selectedTag}
           onChange={(e) => {
             onTagChange(e.target.value);

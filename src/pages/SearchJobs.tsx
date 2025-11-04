@@ -77,6 +77,7 @@ export default function SearchJobs() {
         />
       </aside>
       <section className="w-3/4 p-4">
+        <h1 className="text-xl pb-6 text-gray-500">{filteredJobs.length} jobs found!</h1>
         <div className="flex flex-wrap gap-6">
           {filteredJobs.length > 0 ? (
             //true, there are jobs
