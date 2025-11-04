@@ -1,20 +1,98 @@
+import React, { useState } from "react";
 import JobBox from "../components/jobbox/JobBox";
 import Sidebar from "../components/sidebar/Sidebar";
 
+//start of mock data
+
+//TO BE REPLACED WITH API !
+const MOCK_JOBS = [
+  {
+    id: 1,
+    title: "groceries",
+    description: "I WANT MILK FROM SCOTTYS.",
+    poster: "the milkman",
+    tags: ["delivery", "on-campus", "$0-$5"],
+  },
+  {
+    id: 2,
+    title: "art tutoring",
+    description: "i hate 60110",
+    poster: "depressed art student",
+    tags: ["tutoring", "digital", "$10-$20"],
+  },
+  {
+    id: 3,
+    title: "im moving out pls hlp",
+    description: "im getting tf outta here can u help me move my couch lol",
+    poster: "college dropout",
+    tags: ["other", "on-campus", "$20+"],
+  },
+  {
+    id: 4,
+    title: "logo design",
+    description: "starting a sad girl autumn club! need logo",
+    poster: "happy autumn girl",
+    tags: ["art-design", "digital", "$20+"],
+  },
+];
+//end of mock data
+
 export default function SearchJobs() {
+  //state variables start here
+  const [searchTerm, setSearchTerm] = useState("");
+  //temporarily only allow one tag
+  const [selectedTag, setSelectedTag] = useState("");
+  console.log("SearchJobs rendered. searchTerm is:", searchTerm);
+  console.log("SearchJobs rendered. selectedTag is:", selectedTag);
+  //state variables end here
+
+  //filter logic starts here
+  const filteredJobs = MOCK_JOBS.filter((job) => {
+    // 1. Let's check the search term
+    const lowerSearch = searchTerm.toLowerCase();
+
+    const titleMatches = job.title.toLowerCase().includes(lowerSearch);
+    const descriptionMatches = job.description
+      .toLowerCase()
+      .includes(lowerSearch);
+
+    const searchMatches = titleMatches || descriptionMatches;
+    const tagMatches = selectedTag == "" || job.tags.includes(selectedTag);
+    return searchMatches && tagMatches;
+  });
+  //filter logic ends here
+
   return (
-    <div className="flex flex-row h-full">
-      <aside className="w-64 bg-blue-100 border-r border-gray-300">
-        <Sidebar />
+    <div className="flex flex-row">
+      <aside className="w-64 bg-blue-100 border-r border-gray-300 p-4 h-full">
+        {/* Here we pass the props!
+          1. Pass the data DOWN (value)
+          2. Pass the function DOWN (to be called UP)
+        */}
+        <Sidebar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          selectedTag={selectedTag}
+          onTagChange={setSelectedTag}
+        />
       </aside>
       <section className="w-3/4 p-4">
-        <h1>look at these jobs yo</h1>
-        <p>job or smth</p>
-        <JobBox
-          JobTitle="job"
-          JobDescription="descirption descirptioln"
-          JobPoster="poster"
-        ></JobBox>
+        <div className="flex flex-wrap gap-6">
+          {filteredJobs.length > 0 ? (
+            //true, there are jobs
+            filteredJobs.map((job) => (
+              <JobBox
+                key={job.id}
+                JobTitle={job.title}
+                JobDescription={job.description}
+                JobPoster={job.poster}
+              />
+            ))
+          ) : (
+            //false, suck my balls yo
+            <p>no jobs match your search. </p>
+          )}
+        </div>
       </section>
     </div>
   );
