@@ -4,16 +4,15 @@ import { IoMdSearch } from "react-icons/io";
 interface SidebarProps {
   searchTerm: string;
   onSearchChange: (newValue: string) => void;
-  selectedTag: string;
-  onTagChange: (newValue: string) => void;
+  selectedTags: string[];
+  onTagClick: (newValue: string) => void;
 }
 
 //constants start here
 const TAG_OPTIONS = [
-  "",
   "delivery",
   "tutoring",
-  "art-design",
+  "art/design",
   "other",
   "on-campus",
   "digital",
@@ -26,11 +25,11 @@ const TAG_OPTIONS = [
 const Sidebar: React.FC<SidebarProps> = ({
   searchTerm,
   onSearchChange,
-  selectedTag,
-  onTagChange,
+  selectedTags,
+  onTagClick,
 }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 min-h-0">
       {/*segment for input*/}
       <div className="flex items-center bg-white p-2 rounded-full gap-2">
         <IoMdSearch></IoMdSearch>
@@ -45,22 +44,18 @@ const Sidebar: React.FC<SidebarProps> = ({
         ></input>
       </div>
       {/*segment for tags*/}
-      <div>
-        <label htmlFor="tags">Filter by Tag</label>
-        <select
-          id="tags"
-          className="bg-white mt-1 block w-full pl-3 pr-10 py-2 border-gray-300 rounded-full"
-          value={selectedTag}
-          onChange={(e) => {
-            onTagChange(e.target.value);
-          }}
-        >
-          {TAG_OPTIONS.map((tag) => (
-            <option key={tag} value={tag}>
-              {tag}
-            </option>
-          ))}
-        </select>
+      <div className="flex flex-wrap gap-2 mt-1">
+        {TAG_OPTIONS.map((tag) => (
+          <button
+            key={tag}
+            onClick={() => onTagClick(tag)}
+            className={`px-2 py-1 rounded ${
+              selectedTags.includes(tag) ? "bg-blue-500 text-white" : "bg-white"
+            }`}
+          >
+            {tag}
+          </button>
+        ))}
       </div>
     </div>
   );
