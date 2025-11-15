@@ -99,6 +99,7 @@ export default function SearchJobs() {
                 JobTitle={job.title}
                 JobDescription={job.description}
                 JobPoster={job.poster}
+                JobTags={job.tags}
               />
             ))
           ) : (
