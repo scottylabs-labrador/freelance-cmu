@@ -11,11 +11,11 @@ export default function Home() {
         <Sidebar />
       </aside>
       <section className="w-3/4 p-4">
-        <h1>look at these jobs yo</h1>
-        <p>job or smth</p>
+        <h1>AVAILABLE JOBS</h1>
+        <p>jobs below</p>
         <JobBox
           JobTitle="job"
-          JobDescription="descirption descirptioln"
+          JobDescription="descirption description"
           JobPoster="poster"
         ></JobBox>
       </section>

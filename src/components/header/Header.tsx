@@ -12,7 +12,7 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 bg-blue-200">
       <div className="flex justify-between items-center px-6 py-4">
         <div className="flex flex-row items-center">
-          <h1 className="text-lg font-bold"> freelance cmu </h1>
+          <h1 className="text-lg font-bold"> Freelance CMU </h1>
           <BiSolidDollarCircle />
         </div>
         <div className="flex space-x-4">
@@ -21,7 +21,7 @@ export default function Header() {
             className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
           >
             <>
-              <p className="px-1 text-1xl font-bold">home</p>
+              <p className="px-1 text-1xl font-bold">Home</p>
               <BiSolidHome />
             </>
           </Link>
@@ -30,7 +30,7 @@ export default function Header() {
             className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
           >
             <>
-              <p className="px-1 text-1xl font-bold">post job</p>
+              <p className="px-1 text-1xl font-bold">Post Job</p>
               <BiSolidPaperPlane />
             </>
           </Link>
@@ -40,7 +40,7 @@ export default function Header() {
             className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
           >
             <>
-              <p className="px-1 text-1xl font-bold">login</p>
+              <p className="px-1 text-1xl font-bold">Login</p>
               <BiSolidLockOpenAlt />
             </>
           </Link>
@@ -50,7 +50,7 @@ export default function Header() {
             className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
           >
             <>
-              <p className="px-1 text-1xl font-bold">profile</p>
+              <p className="px-1 text-1xl font-bold">Profile</p>
               <BiSolidMeh />
             </>
           </Link>
