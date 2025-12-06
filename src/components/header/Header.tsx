@@ -23,7 +23,7 @@ export default function Header() {
   const { isLoggedIn } = auth; // 4. Destructure isLoggedIn for easier use
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-blue-200">
+    <header className="fixed top-0 left-0 right-0 bg-gray-100">
       <div className="flex justify-between items-center px-6 py-4">
         <div className="flex flex-row items-center">
           <h1 className="text-lg font-bold"> freelance cmu </h1>
@@ -33,7 +33,7 @@ export default function Header() {
           {/* This link is always visible */}
           <Link
             to="/"
-            className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
+            className="flex flex-row px-2 py-1 bg-gray-200 rounded items-center"
           >
             <>
               <p className="px-1 text-1xl font-bold">home</p>
@@ -44,7 +44,7 @@ export default function Header() {
           {/* This link is always visible */}
           <Link
             to="/searchjobs"
-            className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
+            className="flex flex-row px-2 py-1 bg-gray-200 rounded items-center"
           >
             <>
               <p className="px-1 text-1xl font-bold">search jobs</p>
@@ -58,7 +58,7 @@ export default function Header() {
               {/* Show these links ONLY if logged in */}
               <Link
                 to="/postjob"
-                className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
+                className="flex flex-row px-2 py-1 bg-gray-200 rounded items-center"
               >
                 <>
                   <p className="px-1 text-1xl font-bold">post job</p>
@@ -68,7 +68,7 @@ export default function Header() {
 
               <Link
                 to="/profile"
-                className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
+                className="flex flex-row px-2 py-1 bg-gray-200 rounded items-center"
               >
                 <>
                   <p className="px-1 text-1xl font-bold">profile</p>
@@ -81,7 +81,7 @@ export default function Header() {
               {/* Show this link ONLY if NOT logged in */}
               <Link
                 to="/login"
-                className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
+                className="flex flex-row px-2 py-1 bg-gray-200 rounded items-center"
               >
                 <>
                   <p className="px-1 text-1xl font-bold">login</p>

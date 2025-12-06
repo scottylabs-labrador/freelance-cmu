@@ -2,46 +2,51 @@ import React, { useState } from "react";
 import JobBox from "../components/jobbox/JobBox";
 import Sidebar from "../components/sidebar/Sidebar";
 
-//start of mock data
-
-//TO BE REPLACED WITH API !
+// --- MOCK DATA ---
 const MOCK_JOBS = [
   {
     id: 1,
-    title: "groceries",
-    description: "I WANT MILK FROM SCOTTYS.",
-    poster: "the milkman",
-    tags: ["delivery", "on-campus", "$0-$5"],
+    title: "Groceries from Scotty's",
+    description:
+      "I WANT MILK FROM SCOTTYS. I'm stuck in studio and need caffeine.",
+    poster: "The Milkman",
+    price: "$2",
+    tags: ["Pickup/Delivery", "On-campus", "$0-$5"],
   },
   {
     id: 2,
-    title: "art tutoring",
-    description: "i hate 60110",
-    poster: "depressed art student",
-    tags: ["tutoring", "digital", "$10-$20"],
+    title: "Art Tutoring 60-110",
+    description:
+      "I hate 60110. Need help with perspective drawing assignments.",
+    poster: "Depressed Art Student",
+    price: "$15",
+    tags: ["Tutoring", "Art & Design", "$10-$20"],
   },
   {
     id: 3,
-    title: "im moving out pls hlp",
-    description: "im getting tf outta here can u help me move my couch lol",
-    poster: "college dropout",
-    tags: ["other", "on-campus", "$20+"],
+    title: "Help Moving Out",
+    description:
+      "I'm getting outta here, can you help me move my couch to storage?",
+    poster: "College Dropout",
+    price: "$35",
+    tags: ["Other", "On-campus", "$20+"],
   },
   {
     id: 4,
-    title: "logo design",
-    description: "starting a sad girl autumn club! need logo",
-    poster: "happy autumn girl",
-    tags: ["art/design", "digital", "$20+"],
+    title: "Club Logo Design",
+    description:
+      "Starting a 'Sad Girl Autumn' club! Need a logo designed ASAP.",
+    poster: "Happy Autumn Girl",
+    price: "$100",
+    tags: ["Art & Design", "Digital", "$20+"],
   },
 ];
-//end of mock data
 
 export default function SearchJobs() {
-  //state variables start here
   const [searchTerm, setSearchTerm] = useState("");
-  //temporarily only allow one tag
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  // Toggle tag selection
   const handleTagClick = (tag: string) => {
     if (selectedTags.includes(tag)) {
       setSelectedTags(selectedTags.filter((item) => item !== tag));
@@ -50,64 +55,80 @@ export default function SearchJobs() {
     }
   };
 
-  console.log("SearchJobs rendered. searchTerm is:", searchTerm);
-  console.log("SearchJobs rendered. selectedTag is:", selectedTags);
-  //state variables end here
-
-  //filter logic starts here
+  // Filter Logic
   const filteredJobs = MOCK_JOBS.filter((job) => {
-    // 1. Let's check the search term
     const lowerSearch = searchTerm.toLowerCase();
+    const matchesSearch =
+      job.title.toLowerCase().includes(lowerSearch) ||
+      job.description.toLowerCase().includes(lowerSearch);
 
-    const titleMatches = job.title.toLowerCase().includes(lowerSearch);
-    const descriptionMatches = job.description
-      .toLowerCase()
-      .includes(lowerSearch);
+    // If no tags selected, show all. Otherwise, job must match AT LEAST one tag.
+    const matchesTags =
+      selectedTags.length === 0 ||
+      selectedTags.some((tag) => job.tags.includes(tag));
 
-    const searchMatches = titleMatches || descriptionMatches;
-    const noTagsSelected = selectedTags.length === 0;
-    const someTagsMatch = selectedTags.some((tag) => job.tags.includes(tag));
-    const tagMatches = noTagsSelected || someTagsMatch;
-    return searchMatches && tagMatches;
+    return matchesSearch && matchesTags;
   });
-  //filter logic ends here
 
   return (
-    <div className="flex flex-row">
-      <aside className="w-1/4 bg-blue-100 border-r border-gray-300 p-4 min-h-0">
-        {/* Here we pass the props!
-          1. Pass the data DOWN (value)
-          2. Pass the function DOWN (to be called UP)
-        */}
-        <Sidebar
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          selectedTags={selectedTags} // Pass the full array down
-          onTagClick={handleTagClick}
-        />
-      </aside>
-      <section className="w-3/4 p-4">
-        <h1 className="text-xl pb-6 text-gray-500">
-          {filteredJobs.length} jobs found!
-        </h1>
-        <div className="flex flex-wrap gap-4">
-          {filteredJobs.length > 0 ? (
-            //true, there are jobs
-            filteredJobs.map((job) => (
-              <JobBox
-                key={job.id}
-                JobTitle={job.title}
-                JobDescription={job.description}
-                JobPoster={job.poster}
-                JobTags={job.tags}
-              />
-            ))
-          ) : (
-            //false, suck my balls yo
-            <p>no jobs match your search. </p>
-          )}
-        </div>
-      </section>
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex flex-row ">
+        {/* --- SIDEBAR --- */}
+        {/* Changed from w-1/4 bg-gray-300 to a fixed width, clean white sidebar */}
+        <aside className="w-64 bg-white border-r border-gray-200 min-h-screen hidden md:block">
+          <div className="sticky top-20 p-6">
+            <Sidebar
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              selectedTags={selectedTags}
+              onTagClick={handleTagClick}
+            />
+          </div>
+        </aside>
+
+        {/* --- MAIN CONTENT --- */}
+        <section className="flex-1 p-8">
+          <div className="mb-6 flex justify-between items-end">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800">Find Work</h1>
+              <p className="text-gray-500 mt-1">
+                Showing {filteredJobs.length}{" "}
+                {filteredJobs.length === 1 ? "job" : "jobs"}
+              </p>
+            </div>
+          </div>
+
+          {/* Grid Layout for Jobs */}
+          <div className="flex flex-wrap gap-6">
+            {filteredJobs.length > 0 ? (
+              filteredJobs.map((job) => (
+                <JobBox
+                  key={job.id}
+                  JobTitle={job.title}
+                  JobDescription={job.description}
+                  JobPay={job.price}
+                  JobPoster={job.poster}
+                  JobTags={job.tags}
+                />
+              ))
+            ) : (
+              // Empty State
+              <div className="w-full flex flex-col items-center justify-center py-20 text-gray-400">
+                <p className="text-lg">No jobs match your search.</p>
+                <button
+                  onClick={() => {
+                    setSearchTerm("");
+                    setSelectedTags([]);
+                  }}
+                  className="mt-2 text-blue-500 hover:underline"
+                >
+                  Clear filters
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
