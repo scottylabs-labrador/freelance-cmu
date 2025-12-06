@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import JobBox from "../components/jobbox/JobBox";
 import Sidebar from "../components/sidebar/Sidebar";
 
@@ -74,7 +74,7 @@ export default function SearchJobs() {
 
   return (
     <div className="flex flex-row">
-      <aside className="w-1/4 bg-blue-100 border-r border-gray-300 p-4 min-h-0">
+      <aside className="w-1/4 bg-white border-r border-gray-200 p-4 min-h-0">
         {/* Here we pass the props!
           1. Pass the data DOWN (value)
           2. Pass the function DOWN (to be called UP)
@@ -87,7 +87,7 @@ export default function SearchJobs() {
         />
       </aside>
       <section className="w-3/4 p-4">
-        <h1 className="text-xl pb-6 text-gray-500">
+        <h1 className="text-xl pb-6 text-gray-600">
           {filteredJobs.length} jobs found!
         </h1>
         <div className="flex flex-wrap gap-4">
@@ -104,7 +104,9 @@ export default function SearchJobs() {
             ))
           ) : (
             //false, suck my balls yo
-            <p>no jobs match your search. </p>
+            <p className="text-gray-400">
+              no jobs match your search.
+            </p>
           )}
         </div>
       </section>

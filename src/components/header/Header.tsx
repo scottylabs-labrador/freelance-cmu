@@ -1,98 +1,33 @@
 // src/components/header/Header.tsx
 
-import {
-  BiSolidHome,
-  BiSolidPaperPlane,
-  BiSolidLockOpenAlt,
-  BiSolidMeh,
-  BiSolidDollarCircle,
-} from "react-icons/bi";
-import { Link } from "@tanstack/react-router";
-import { useContext } from "react"; // <-- 1. Import useContext
-import { authContext } from "../../AuthContext"; // <-- 2. Import your authContext
+import { useContext } from "react";
+import { authContext } from "../../AuthContext";
 
 export default function Header() {
-  // 3. Get the auth state from the context
   const auth = useContext(authContext);
 
-  // A good safety check in case the context is somehow null
   if (!auth) {
-    return null; // Or a loading/fallback header
+    return null;
   }
 
-  const { isLoggedIn } = auth; // 4. Destructure isLoggedIn for easier use
-
   return (
-    <header className="fixed top-0 left-0 right-0 bg-blue-200">
-      <div className="flex justify-between items-center px-6 py-4">
-        <div className="flex flex-row items-center">
-          <h1 className="text-lg font-bold"> freelance cmu </h1>
-          <BiSolidDollarCircle />
+    <header className="fixed top-0 left-0 right-0 bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 z-50">
+      {/* Left: Logo */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+          F
         </div>
-        <div className="flex space-x-4">
-          {/* This link is always visible */}
-          <Link
-            to="/"
-            className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
-          >
-            <>
-              <p className="px-1 text-1xl font-bold">home</p>
-              <BiSolidHome />
-            </>
-          </Link>
+        <span className="text-xl font-bold text-slate-900">FreelanceHub</span>
+      </div>
 
-          {/* This link is always visible */}
-          <Link
-            to="/searchjobs"
-            className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
-          >
-            <>
-              <p className="px-1 text-1xl font-bold">search jobs</p>
-              <BiSolidPaperPlane />
-            </>
-          </Link>
-
-          {/* 5. Use conditional (ternary) rendering */}
-          {isLoggedIn ? (
-            <>
-              {/* Show these links ONLY if logged in */}
-              <Link
-                to="/postjob"
-                className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
-              >
-                <>
-                  <p className="px-1 text-1xl font-bold">post job</p>
-                  <BiSolidPaperPlane />
-                </>
-              </Link>
-
-              <Link
-                to="/profile"
-                className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
-              >
-                <>
-                  <p className="px-1 text-1xl font-bold">profile</p>
-                  <BiSolidMeh />
-                </>
-              </Link>
-            </>
-          ) : (
-            <>
-              {/* Show this link ONLY if NOT logged in */}
-              <Link
-                to="/login"
-                className="flex flex-row px-2 py-1 bg-blue-400 rounded items-center"
-              >
-                <>
-                  <p className="px-1 text-1xl font-bold">login</p>
-                  <BiSolidLockOpenAlt />
-                </>
-              </Link>
-            </>
-          )}
-
-          <div />
-        </div>
+      {/* Right: Icon buttons */}
+      <div className="flex items-center gap-3">
+        <button className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition">
+          🔔
+        </button>
+        <button className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition">
+          👤
+        </button>
       </div>
     </header>
   );

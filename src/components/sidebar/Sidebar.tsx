@@ -31,8 +31,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div className="flex flex-col gap-4 min-h-0">
       {/*segment for input*/}
-      <div className="flex items-center bg-white p-2 rounded-full gap-2">
-        <IoMdSearch></IoMdSearch>
+      <div className="flex items-center p-2 rounded-full gap-2 border border-gray-200 bg-gray-50">
+        <IoMdSearch className="text-gray-600" />
         <input
           type="text"
           id="search"
@@ -41,6 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           onChange={(e) => {
             onSearchChange(e.target.value);
           }}
+          className="outline-none flex-1 bg-transparent text-gray-900 placeholder-gray-400"
         ></input>
       </div>
       {/*segment for tags*/}
@@ -49,8 +50,10 @@ const Sidebar: React.FC<SidebarProps> = ({
           <button
             key={tag}
             onClick={() => onTagClick(tag)}
-            className={`px-2 py-1 rounded ${
-              selectedTags.includes(tag) ? "bg-blue-500 text-white" : "bg-white"
+            className={`px-2 py-1 rounded border border-gray-200 ${
+              selectedTags.includes(tag)
+                ? 'bg-indigo-600 text-white'
+                : 'bg-gray-50 text-gray-900'
             }`}
           >
             {tag}
